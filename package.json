@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "piccolorpicker": "file:",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-color": "^2.19.3",
+    "react-dom": "^18.3.1",
+    "react-image-crop": "^11.0.7",
+    "react-toastify": "^10.0.6",
+    "wcag-contrast": "^3.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
