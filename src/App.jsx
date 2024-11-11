@@ -9,6 +9,7 @@ import * as wcagContrast from "wcag-contrast";
 function App() {
   const [color, setColor] = useState("#808000");
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [colorHistory, setColorHistory] = useState([]);
   const canvasRef = useRef(null);
   const imgRef = useRef(null);
 
@@ -38,6 +39,13 @@ function App() {
     setColor(hexColor);
     toast.success(`Picked color: ${hexColor}`);
   };
+
+  // Update color history when a new color is picked
+  useEffect(() => {
+    if (!colorHistory.includes(color)) {
+      setColorHistory((prev) => [color, ...prev].slice(0, 10)); // Limit to 10 recent colors
+    }
+  }, [color]);
 
   // Draw the image on the canvas
   useEffect(() => {
@@ -95,6 +103,21 @@ function App() {
         )}
         <ContrastChecker contrast={calculateContrast()} isAccessible={isContrastAccessible()} />
         <SketchPicker color={color} onChange={handleColorChange} />
+
+        {/* Color History Section */}
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold text-gray-800">Color History</h2>
+          <div className="flex flex-wrap gap-2 mt-4">
+            {colorHistory.map((c, index) => (
+              <div
+                key={index}
+                className="w-8 h-8 border rounded-full"
+                style={{ backgroundColor: c }}
+                title={c}
+              ></div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
