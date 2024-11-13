@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "color-namer": "^1.4.0",
     "html2canvas": "^1.4.1",
     "piccolorpicker": "file:",
     "react": "^18.3.1",
