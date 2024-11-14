@@ -6,6 +6,7 @@ import ImageUpload from "./component/ImageUpload";
 import ContrastChecker from "./component/ContrastChecker";
 import * as wcagContrast from "wcag-contrast";
 import html2canvas from "html2canvas";
+import chroma from "chroma-js";  // Import chroma.js for color manipulation
 import namer from "color-namer";
 
 function App() {
@@ -13,6 +14,8 @@ function App() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [colorHistory, setColorHistory] = useState([]);
   const [palette, setPalette] = useState([]);
+  const [shades, setShades] = useState([]);
+  const [tints, setTints] = useState([]);
   const canvasRef = useRef(null);
   const imgRef = useRef(null);
 
@@ -64,6 +67,19 @@ function App() {
       }
     }
   };
+
+  // Define getAccessibilityRecommendation function to return an accessibility suggestion based on contrast ratio
+  function getAccessibilityRecommendation(contrastRatio) {
+    if (contrastRatio >= 7) {
+      return "AAA (Best)";
+    } else if (contrastRatio >= 4.5) {
+      return "AA (Good)";
+    } else if (contrastRatio >= 3) {
+      return "A (Fair)";
+    } else {
+      return "Fail";
+    }
+  }
 
   // Handle click on image to pick color
   const handleImageClick = (event) => {
@@ -184,16 +200,14 @@ function App() {
     };
   }, [color]);
 
-  // Get accessibility recommendation based on contrast
-  const getAccessibilityRecommendation = () => {
-    const contrast = wcagContrast.hex(color, "#FFFFFF");
-    if (contrast >= 7) {
-      return "This color is great for all text sizes.";
-    } else if (contrast >= 4.5) {
-      return "This color is suitable for large text.";
-    } else {
-      return "This color does not meet accessibility standards.";
-    }
+  // Generate Shades and Tints using chroma.js
+  const generateShadesAndTints = () => {
+    const shadesArray = chroma.scale([color, "black"]).mode("lab").colors(5); // Shades (dark to black)
+    const tintsArray = chroma.scale([color, "white"]).mode("lab").colors(5); // Tints (light to white)
+
+    setShades(shadesArray);
+    setTints(tintsArray);
+    toast.info("Generated shades and tints!");
   };
 
   return (
@@ -225,64 +239,97 @@ function App() {
             Selected Color: {color} - {getColorName(color)}
           </p>
           <p
-            className={`mt-1 text-sm ${
-              isContrastAccessible() ? "text-green-600" : "text-red-600"
+            className={`mt-2 text-lg font-semibold ${
+              isContrastAccessible() ? "text-green-500" : "text-red-500"
             }`}
           >
-            Contrast: {calculateContrast()} - {getAccessibilityRecommendation()}
+            Contrast Ratio: {calculateContrast()} -{" "}
+            {getAccessibilityRecommendation(calculateContrast())}
           </p>
+        </div>
+        <div className="flex justify-between mt-4">
           <button
-            className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600"
-            onClick={() => handleCopyColor(color)}
-          >
-            Copy Color to Clipboard
-          </button>
-          <button
-            className="px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600"
+            className="px-4 py-2 mt-4 ml-4 text-white bg-green-500 rounded hover:bg-green-600"
             onClick={generateColorPalette}
           >
-            Generate Color Palette
+            Generate Complementary Palette
           </button>
           <button
-            className="px-4 py-2 mt-2 text-white bg-yellow-500 rounded hover:bg-yellow-600"
+            className="px-4 py-2 mt-4 ml-4 text-white bg-yellow-500 rounded hover:bg-yellow-600"
+            onClick={generateShadesAndTints}
+          >
+            Generate Shades & Tints
+          </button>
+        </div>
+
+        <div id="color-history" className="mt-8 space-y-4">
+          <h2 className="text-2xl font-semibold">Color History</h2>
+          <div className="flex space-x-4 overflow-x-auto">
+            {colorHistory.map((color, index) => (
+              <div
+                key={index}
+                className="w-12 h-12 rounded-full"
+                style={{ backgroundColor: color }}
+                onClick={() => setColor(color)}
+              ></div>
+            ))}
+          </div>
+        </div>
+
+        {/* Display generated shades and tints */}
+        <div className="mt-8">
+          <h3 className="text-2xl font-semibold">Generated Shades</h3>
+          <div className="flex space-x-4">
+            {shades.map((shade, index) => (
+              <div
+                key={index}
+                className="w-12 h-12 rounded-full"
+                style={{ backgroundColor: shade }}
+                onClick={() => setColor(shade)}
+              ></div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8">
+          <h3 className="text-2xl font-semibold">Generated Tints</h3>
+          <div className="flex space-x-4">
+            {tints.map((tint, index) => (
+              <div
+                key={index}
+                className="w-12 h-12 rounded-full"
+                style={{ backgroundColor: tint }}
+                onClick={() => setColor(tint)}
+              ></div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex justify-between mt-6">
+          <button
+            className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+            onClick={resetColorHistory}
+          >
+            Reset Color History
+          </button>
+          <button
+            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+            onClick={downloadPaletteAsImage}
+          >
+            Download Palette Image
+          </button>
+          <button
+            className="px-4 py-2 text-white bg-purple-500 rounded hover:bg-purple-600"
             onClick={exportColorHistory}
           >
             Export Color History
           </button>
           <input
             type="file"
-            onChange={importColorHistory}
-            className="mt-2"
             accept=".json"
+            onChange={importColorHistory}
+            className="px-4 py-2 text-white bg-gray-500 rounded cursor-pointer"
           />
-        </div>
-        <div className="w-full mt-6" id="color-history">
-          <h2 className="text-lg font-semibold text-gray-700">
-            Color History (Last 20)
-          </h2>
-          <div className="flex flex-wrap mt-2">
-            {colorHistory.map((color, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-center w-16 h-16 mb-2 mr-2 rounded-full cursor-pointer"
-                style={{ backgroundColor: color }}
-                onClick={() => setColor(color)}
-                title={getColorName(color)}
-              />
-            ))}
-          </div>
-          <button
-            className="px-4 py-2 mt-4 text-white bg-red-500 rounded hover:bg-red-600"
-            onClick={resetColorHistory}
-          >
-            Reset Color History
-          </button>
-          <button
-            className="px-4 py-2 mt-2 text-white bg-purple-500 rounded hover:bg-purple-600"
-            onClick={downloadPaletteAsImage}
-          >
-            Download Palette as Image
-          </button>
         </div>
       </div>
     </div>
