@@ -211,128 +211,135 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-50">
-      <ToastContainer />
-      <div className="w-full max-w-3xl p-6 space-y-6 bg-white rounded-lg shadow-lg">
-        <h1 className="mb-6 text-3xl font-semibold text-center text-gray-800">
-          Color Picker from Image
-        </h1>
-        <ImageUpload
-          onUpload={handleImageUpload}
-          onReset={() => setUploadedImage(null)}
-        />
-        {uploadedImage && (
-          <div className="flex items-center justify-center">
-            <img
-              ref={imgRef}
-              src={uploadedImage}
-              alt="Uploaded"
-              onClick={handleImageClick}
-              className="max-w-full rounded-lg max-h-96"
-            />
-          </div>
-        )}
-        <canvas ref={canvasRef} style={{ display: "none" }} />
-        <div className="mt-6">
-          <SketchPicker color={color} onChange={handleColorChange} />
-          <p className="mt-2 text-lg font-semibold">
-            Selected Color: {color} - {getColorName(color)}
-          </p>
-          <p
-            className={`mt-2 text-lg font-semibold ${
-              isContrastAccessible() ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            Contrast Ratio: {calculateContrast()} -{" "}
-            {getAccessibilityRecommendation(calculateContrast())}
-          </p>
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-r from-blue-50 via-white to-blue-50">
+    <ToastContainer />
+    <div className="w-full max-w-3xl p-10 space-y-10 bg-white shadow-2xl rounded-2xl">
+      <h1 className="text-3xl font-bold text-center text-gray-900">
+        Color Picker from Image
+      </h1>
+      <ImageUpload
+        onUpload={handleImageUpload}
+        onReset={() => setUploadedImage(null)}
+        className="mx-auto"
+      />
+  
+      {uploadedImage && (
+        <div className="flex items-center justify-center mt-4">
+          <img
+            ref={imgRef}
+            src={uploadedImage}
+            alt="Uploaded"
+            onClick={handleImageClick}
+            className="max-w-full transition-transform duration-200 rounded-lg shadow-md cursor-pointer max-h-96 hover:scale-105"
+          />
         </div>
-        <div className="flex justify-between mt-4">
-          <button
-            className="px-4 py-2 mt-4 ml-4 text-white bg-green-500 rounded hover:bg-green-600"
-            onClick={generateColorPalette}
-          >
-            Generate Complementary Palette
-          </button>
-          <button
-            className="px-4 py-2 mt-4 ml-4 text-white bg-yellow-500 rounded hover:bg-yellow-600"
-            onClick={generateShadesAndTints}
-          >
-            Generate Shades & Tints
-          </button>
+      )}
+  
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+  
+      <div className="mt-6">
+        <SketchPicker color={color} onChange={handleColorChange} />
+        <p className="mt-4 text-lg font-semibold">
+          Selected Color: <span style={{ color: color }}>{color}</span> - {getColorName(color)}
+        </p>
+        <p
+          className={`mt-2 text-lg font-semibold ${
+            isContrastAccessible() ? "text-green-600" : "text-red-600"
+          }`}
+        >
+          Contrast Ratio: {calculateContrast()} -{" "}
+          {getAccessibilityRecommendation(calculateContrast())}
+        </p>
+      </div>
+  
+      <div className="flex flex-col gap-4 mt-6 md:flex-row md:justify-center">
+        <button
+          className="px-5 py-3 font-medium text-white transition duration-200 bg-green-600 rounded-lg shadow-lg hover:bg-green-700"
+          onClick={generateColorPalette}
+        >
+          Generate Complementary Palette
+        </button>
+        <button
+          className="px-5 py-3 font-medium text-white transition duration-200 bg-yellow-500 rounded-lg shadow-lg hover:bg-yellow-600"
+          onClick={generateShadesAndTints}
+        >
+          Generate Shades & Tints
+        </button>
+      </div>
+  
+      <div id="color-history" className="mt-10 space-y-6">
+        <h2 className="text-2xl font-semibold text-center">Color History</h2>
+        <div className="flex py-2 space-x-4 overflow-x-auto">
+          {colorHistory.map((color, index) => (
+            <div
+              key={index}
+              className="transition-transform transform border-2 border-white rounded-full shadow-lg cursor-pointer w-14 h-14 hover:scale-110"
+              style={{ backgroundColor: color }}
+              onClick={() => setColor(color)}
+            ></div>
+          ))}
         </div>
-
-        <div id="color-history" className="mt-8 space-y-4">
-          <h2 className="text-2xl font-semibold">Color History</h2>
-          <div className="flex space-x-4 overflow-x-auto">
-            {colorHistory.map((color, index) => (
-              <div
-                key={index}
-                className="w-12 h-12 rounded-full"
-                style={{ backgroundColor: color }}
-                onClick={() => setColor(color)}
-              ></div>
-            ))}
-          </div>
-        </div>
-
-        {/* Display generated shades and tints */}
-        <div className="mt-8">
-          <h3 className="text-2xl font-semibold">Generated Shades</h3>
-          <div className="flex space-x-4">
+      </div>
+  
+      <div className="mt-10 space-y-8">
+        <div>
+          <h3 className="text-2xl font-semibold text-center">Generated Shades</h3>
+          <div className="flex py-2 space-x-4 overflow-x-auto">
             {shades.map((shade, index) => (
               <div
                 key={index}
-                className="w-12 h-12 rounded-full"
+                className="transition-transform transform border-2 border-white rounded-full shadow-lg cursor-pointer w-14 h-14 hover:scale-110"
                 style={{ backgroundColor: shade }}
                 onClick={() => setColor(shade)}
               ></div>
             ))}
           </div>
         </div>
-
-        <div className="mt-8">
-          <h3 className="text-2xl font-semibold">Generated Tints</h3>
-          <div className="flex space-x-4">
+  
+        <div>
+          <h3 className="text-2xl font-semibold text-center">Generated Tints</h3>
+          <div className="flex py-2 space-x-4 overflow-x-auto">
             {tints.map((tint, index) => (
               <div
                 key={index}
-                className="w-12 h-12 rounded-full"
+                className="transition-transform transform border-2 border-white rounded-full shadow-lg cursor-pointer w-14 h-14 hover:scale-110"
                 style={{ backgroundColor: tint }}
                 onClick={() => setColor(tint)}
               ></div>
             ))}
           </div>
         </div>
-
-        <div className="flex justify-between mt-6">
-          <button
-            className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
-            onClick={resetColorHistory}
-          >
-            Reset Color History
-          </button>
-          <button
-            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-            onClick={downloadPaletteAsImage}
-          >
-            Download Palette Image
-          </button>
-          <button
-            className="px-4 py-2 text-white bg-purple-500 rounded hover:bg-purple-600"
-            onClick={exportColorHistory}
-          >
-            Export Color History
-          </button>
-          <input
-            type="file"
-            accept=".json"
-            onChange={importColorHistory}
-            className="px-4 py-2 text-white bg-gray-500 rounded cursor-pointer"
-          />
-        </div>
+      </div>
+  
+      <div className="flex flex-wrap justify-between gap-4 mt-10">
+        <button
+          className="px-4 py-3 font-medium text-white transition duration-200 bg-red-600 rounded-lg shadow-lg hover:bg-red-700"
+          onClick={resetColorHistory}
+        >
+          Reset Color History
+        </button>
+        <button
+          className="px-4 py-3 font-medium text-white transition duration-200 bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700"
+          onClick={downloadPaletteAsImage}
+        >
+          Download Palette Image
+        </button>
+        <button
+          className="px-4 py-3 font-medium text-white transition duration-200 bg-purple-600 rounded-lg shadow-lg hover:bg-purple-700"
+          onClick={exportColorHistory}
+        >
+          Export Color History
+        </button>
+        <input
+          type="file"
+          accept=".json"
+          onChange={importColorHistory}
+          className="px-4 py-3 font-medium text-gray-800 bg-gray-200 rounded-lg shadow-lg cursor-pointer hover:bg-gray-300"
+        />
       </div>
     </div>
+  </div>
+  
   );
 }
 
