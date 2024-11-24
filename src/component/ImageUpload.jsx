@@ -46,19 +46,21 @@ const ImageUpload = ({ onReset, showReset }) => {
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-bold">Color Picker from Image</h2>
+    <div className="p-4 space-y-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold text-gray-800">
+        Color Picker from Image
+      </h2>
       <div className="flex items-center space-x-4">
         <input
           type="file"
           accept="image/*"
           onChange={handleImageUpload}
-          className="p-2 border rounded"
+          className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
         {showReset && (
           <button
             onClick={handleReset}
-            className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+            className="px-4 py-2 text-white transition-colors duration-200 bg-red-500 rounded-lg hover:bg-red-600"
           >
             Reset
           </button>
@@ -69,11 +71,11 @@ const ImageUpload = ({ onReset, showReset }) => {
           <canvas
             ref={canvasRef}
             onClick={handleCanvasClick}
-            className="border rounded"
+            className="w-full h-auto border border-gray-300 rounded-lg cursor-pointer"
           ></canvas>
           {pickedColor && (
             <div
-              className="p-2 mt-2 text-white rounded"
+              className="p-3 mt-4 font-medium text-white rounded-lg"
               style={{ backgroundColor: pickedColor }}
             >
               Picked Color: {pickedColor}

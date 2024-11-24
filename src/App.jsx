@@ -1,13 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, useRef } from "react";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { SketchPicker } from "react-color";
-import ImageUpload from "./component/ImageUpload";
-import ContrastChecker from "./component/ContrastChecker";
 import * as wcagContrast from "wcag-contrast";
 import html2canvas from "html2canvas";
-import chroma from "chroma-js";  // Import chroma.js for color manipulation
-import namer from "color-namer";
+import chroma from "chroma-js";
+import PaletteGenerator from "./component/PaletteGenerator";
+import ColorHistory from "./component/ColorHistory";
+import ShadesAndTints from "./component/ShadesAndTints";
+import FileControls from "./component/FileControls";
+import ImageUpload from "./component/ImageUpload";
+import ColorPicker from "./component/colorPicker";
+import ContrastChecker from "./component/ContrastChecker";
 
 function App() {
   const [color, setColor] = useState("#808000");
@@ -18,328 +21,118 @@ function App() {
   const [tints, setTints] = useState([]);
   const canvasRef = useRef(null);
   const imgRef = useRef(null);
-
-  // Load color history from local storage
-  useEffect(() => {
-    const storedHistory = localStorage.getItem("colorHistory");
-    if (storedHistory) {
-      setColorHistory(JSON.parse(storedHistory));
-    }
-  }, []);
-
-  // Save color history to local storage
-  useEffect(() => {
-    localStorage.setItem("colorHistory", JSON.stringify(colorHistory));
-  }, [colorHistory]);
+  const [preview, setPreview] = useState(null);
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Handle image upload
-  const handleImageUpload = (event) => {
+  const handleImageUpload = async (event) => {
     const file = event.target.files[0];
-    if (!file) return;
-    const imageUrl = URL.createObjectURL(file);
-    setUploadedImage(imageUrl);
-  };
-
-  // Convert RGB to HEX
-  const rgbToHex = (r, g, b) => {
-    return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("")}`;
-  };
-
-  // Draw uploaded image on canvas
-  const drawImageOnCanvas = () => {
-    if (canvasRef.current && imgRef.current) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      const img = imgRef.current;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-      };
-
-      if (img.complete) {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-      }
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+      setImage(file);
     }
   };
 
-  // Define getAccessibilityRecommendation function to return an accessibility suggestion based on contrast ratio
-  function getAccessibilityRecommendation(contrastRatio) {
-    if (contrastRatio >= 7) {
-      return "AAA (Best)";
-    } else if (contrastRatio >= 4.5) {
-      return "AA (Good)";
-    } else if (contrastRatio >= 3) {
-      return "A (Fair)";
-    } else {
-      return "Fail";
-    }
-  }
-
-  // Handle click on image to pick color
-  const handleImageClick = (event) => {
-    if (!canvasRef.current) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    const pixelData = ctx.getImageData(x, y, 1, 1).data;
-    const hexColor = rgbToHex(pixelData[0], pixelData[1], pixelData[2]);
-    setColor(hexColor);
-    toast.success(`Picked color: ${hexColor}`);
+  const handleResetImage = () => {
+    setPreview(null);
+    setImage(null);
   };
 
-  // Update color history when color changes
-  useEffect(() => {
-    setColorHistory((prev) => [color, ...prev].slice(0, 20));
-  }, [color]);
-
-  // Redraw image on canvas when uploaded
-  useEffect(() => {
-    if (uploadedImage) {
-      drawImageOnCanvas();
-    }
-  }, [uploadedImage]);
-
-  // Handle color change from SketchPicker
-  const handleColorChange = (updatedColor) => {
-    setColor(updatedColor.hex);
+  const handleColorChange = (newColor) => {
+    setColor(newColor);
+    generateShadesAndTints(newColor); // Update shades and tints when color changes
   };
 
-  // Copy color to clipboard
-  const handleCopyColor = (color) => {
-    navigator.clipboard.writeText(color).then(
-      () => toast.success(`Copied ${color} to clipboard!`),
-      () => toast.error("Failed to copy color to clipboard")
-    );
-  };
+  const generateColorPalette = () => {
+    if (!image) return;
 
-  // Calculate contrast ratio
-  const calculateContrast = () => {
-    const contrast = wcagContrast.hex(color, "#FFFFFF");
-    return contrast.toFixed(2);
-  };
-
-  // Check if contrast is accessible
-  const isContrastAccessible = () => {
-    const contrast = wcagContrast.hex(color, "#FFFFFF");
-    return contrast >= 4.5;
-  };
-
-  // Reset color history
-  const resetColorHistory = () => {
-    setColorHistory([]);
-    toast.info("Color history has been reset.");
-  };
-
-  // Download color palette as image
-  const downloadPaletteAsImage = () => {
-    const paletteElement = document.getElementById("color-history");
-    html2canvas(paletteElement).then((canvas) => {
-      const link = document.createElement("a");
-      link.download = "color-palette.png";
-      link.href = canvas.toDataURL();
-      link.click();
+    html2canvas(imgRef.current).then((canvas) => {
+      const imageData = canvas.getImageData(0, 0, canvas.width, canvas.height);
+      const colors = chroma.scale("YlGnBu").mode("lab").colors(5); // Example color scale
+      setPalette(colors);
     });
   };
 
-  // Generate a complementary color palette
-  const generateColorPalette = () => {
-    const complementaryColor = wcagContrast.complementary(color);
-    setPalette([color, complementaryColor]);
-    toast.info("Generated a complementary color palette!");
+  const generateShadesAndTints = (baseColor) => {
+    const chromaColor = chroma(baseColor);
+    setShades(chromaColor.darken(1).colors(5));  // Example dark shades
+    setTints(chromaColor.brighten(1).colors(5)); // Example light tints
   };
 
-  // Export color history as JSON
+  const resetColorHistory = () => {
+    setColorHistory([]);
+  };
+
   const exportColorHistory = () => {
-    const data = JSON.stringify(colorHistory, null, 2);
-    const blob = new Blob([data], { type: "application/json" });
+    const json = JSON.stringify(colorHistory);
+    const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "color-history.json";
-    link.click();
+    const a = document.createElement('a');
+    a.href = url;0
+    Z 
+    a.download = 'color-history.json';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
-  // Import color history from JSON file
-  const importColorHistory = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
+  const importColorHistory = (file) => {
     const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const importedHistory = JSON.parse(e.target.result);
-        setColorHistory(importedHistory);
-        toast.success("Color history imported successfully!");
-      } catch (error) {
-        toast.error("Failed to import color history.");
-      }
+    reader.onload = () => {
+      const importedHistory = JSON.parse(reader.result);
+      setColorHistory(importedHistory);
     };
     reader.readAsText(file);
   };
 
-  // Get color name using color-namer library
-  const getColorName = (hex) => {
-    const name = namer(hex).ntc[0].name;
-    return name;
+ // Function to calculate contrast
+ const calculateContrast = () => {
+  const bgColor = color;  // Selected color
+  const textColor = "#ffffff"; // Assuming white text for contrast
+
+  try {
+    const contrastRatio = wcagContrast.hex(bgColor, textColor); // Calculate contrast ratio
+    return contrastRatio;
+  } catch (error) {
+    console.error("Error calculating contrast:", error);
+    return 0; // Return a fallback value in case of error
+  }
+};
+
+  const getAccessibilityRecommendation = (contrastRatio) => {
+    if (contrastRatio >= 7) {
+      return "AAA - Excellent contrast";
+    } else if (contrastRatio >= 4.5) {
+      return "AA - Good contrast";
+    } else {
+      return "Fail - Poor contrast";
+    }
   };
 
-  // Update background color
-  useEffect(() => {
-    document.body.style.backgroundColor = color;
-    return () => {
-      document.body.style.backgroundColor = "";
-    };
-  }, [color]);
-
-  // Generate Shades and Tints using chroma.js
-  const generateShadesAndTints = () => {
-    const shadesArray = chroma.scale([color, "black"]).mode("lab").colors(5); // Shades (dark to black)
-    const tintsArray = chroma.scale([color, "white"]).mode("lab").colors(5); // Tints (light to white)
-
-    setShades(shadesArray);
-    setTints(tintsArray);
-    toast.info("Generated shades and tints!");
-  };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-r from-blue-50 via-white to-blue-50">
-    <ToastContainer />
-    <div className="w-full max-w-3xl p-10 space-y-10 bg-white shadow-2xl rounded-2xl">
-      <h1 className="text-3xl font-bold text-center text-gray-900">
-        Color Picker from Image
-      </h1>
-      <ImageUpload
-        onUpload={handleImageUpload}
-        onReset={() => setUploadedImage(null)}
-        className="mx-auto"
+    <div className="app">
+      <ToastContainer />
+      <h1>Color Picker from Image</h1>
+      <ImageUpload onUpload={handleImageUpload} onReset={handleResetImage} />
+      <ColorPicker color={color} onColorChange={handleColorChange} />
+      <ContrastChecker
+  contrastRatio={calculateContrast() || "Invalid"}
+  accessibilityLevel={getAccessibilityRecommendation(calculateContrast() || 0)}
+/>
+      <PaletteGenerator
+        onGeneratePalette={generateColorPalette}
+        onGenerateShadesTints={generateShadesAndTints}
       />
-  
-      {uploadedImage && (
-        <div className="flex items-center justify-center mt-4">
-          <img
-            ref={imgRef}
-            src={uploadedImage}
-            alt="Uploaded"
-            onClick={handleImageClick}
-            className="max-w-full transition-transform duration-200 rounded-lg shadow-md cursor-pointer max-h-96 hover:scale-105"
-          />
-        </div>
-      )}
-  
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-  
-      <div className="mt-6">
-        <SketchPicker color={color} onChange={handleColorChange} />
-        <p className="mt-4 text-lg font-semibold">
-          Selected Color: <span style={{ color: color }}>{color}</span> - {getColorName(color)}
-        </p>
-        <p
-          className={`mt-2 text-lg font-semibold ${
-            isContrastAccessible() ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          Contrast Ratio: {calculateContrast()} -{" "}
-          {getAccessibilityRecommendation(calculateContrast())}
-        </p>
-      </div>
-  
-      <div className="flex flex-col gap-4 mt-6 md:flex-row md:justify-center">
-        <button
-          className="px-5 py-3 font-medium text-white transition duration-200 bg-green-600 rounded-lg shadow-lg hover:bg-green-700"
-          onClick={generateColorPalette}
-        >
-          Generate Complementary Palette
-        </button>
-        <button
-          className="px-5 py-3 font-medium text-white transition duration-200 bg-yellow-500 rounded-lg shadow-lg hover:bg-yellow-600"
-          onClick={generateShadesAndTints}
-        >
-          Generate Shades & Tints
-        </button>
-      </div>
-  
-      <div id="color-history" className="mt-10 space-y-6">
-        <h2 className="text-2xl font-semibold text-center">Color History</h2>
-        <div className="flex py-2 space-x-4 overflow-x-auto">
-          {colorHistory.map((color, index) => (
-            <div
-              key={index}
-              className="transition-transform transform border-2 border-white rounded-full shadow-lg cursor-pointer w-14 h-14 hover:scale-110"
-              style={{ backgroundColor: color }}
-              onClick={() => setColor(color)}
-            ></div>
-          ))}
-        </div>
-      </div>
-  
-      <div className="mt-10 space-y-8">
-        <div>
-          <h3 className="text-2xl font-semibold text-center">Generated Shades</h3>
-          <div className="flex py-2 space-x-4 overflow-x-auto">
-            {shades.map((shade, index) => (
-              <div
-                key={index}
-                className="transition-transform transform border-2 border-white rounded-full shadow-lg cursor-pointer w-14 h-14 hover:scale-110"
-                style={{ backgroundColor: shade }}
-                onClick={() => setColor(shade)}
-              ></div>
-            ))}
-          </div>
-        </div>
-  
-        <div>
-          <h3 className="text-2xl font-semibold text-center">Generated Tints</h3>
-          <div className="flex py-2 space-x-4 overflow-x-auto">
-            {tints.map((tint, index) => (
-              <div
-                key={index}
-                className="transition-transform transform border-2 border-white rounded-full shadow-lg cursor-pointer w-14 h-14 hover:scale-110"
-                style={{ backgroundColor: tint }}
-                onClick={() => setColor(tint)}
-              ></div>
-            ))}
-          </div>
-        </div>
-      </div>
-  
-      <div className="flex flex-wrap justify-between gap-4 mt-10">
-        <button
-          className="px-4 py-3 font-medium text-white transition duration-200 bg-red-600 rounded-lg shadow-lg hover:bg-red-700"
-          onClick={resetColorHistory}
-        >
-          Reset Color History
-        </button>
-        <button
-          className="px-4 py-3 font-medium text-white transition duration-200 bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700"
-          onClick={downloadPaletteAsImage}
-        >
-          Download Palette Image
-        </button>
-        <button
-          className="px-4 py-3 font-medium text-white transition duration-200 bg-purple-600 rounded-lg shadow-lg hover:bg-purple-700"
-          onClick={exportColorHistory}
-        >
-          Export Color History
-        </button>
-        <input
-          type="file"
-          accept=".json"
-          onChange={importColorHistory}
-          className="px-4 py-3 font-medium text-gray-800 bg-gray-200 rounded-lg shadow-lg cursor-pointer hover:bg-gray-300"
-        />
-      </div>
+      <ColorHistory colorHistory={colorHistory} onColorSelect={setColor} />
+      <ShadesAndTints shades={shades} tints={tints} onColorSelect={setColor} />
+      <FileControls
+        onResetHistory={resetColorHistory}
+        onDownloadPalette={exportColorHistory}
+        onExportHistory={exportColorHistory}
+        onImportHistory={importColorHistory}
+      />
     </div>
-  </div>
-  
   );
 }
 
