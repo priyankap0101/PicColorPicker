@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { FaEyeDropper } from "react-icons/fa"; // Color picker icon from react-icons
 
 const ImageUpload = ({ onReset, showReset }) => {
   const [imageSrc, setImageSrc] = useState(null);
@@ -71,7 +72,8 @@ const ImageUpload = ({ onReset, showReset }) => {
           <canvas
             ref={canvasRef}
             onClick={handleCanvasClick}
-            className="w-full h-auto border border-gray-300 rounded-lg cursor-pointer"
+            className="w-full h-auto border border-gray-300 rounded-lg"
+            style={{ cursor: "crosshair" }} // Set cursor to crosshair
           ></canvas>
           {pickedColor && (
             <div
@@ -83,6 +85,12 @@ const ImageUpload = ({ onReset, showReset }) => {
           )}
         </div>
       )}
+      <div className="flex items-center mt-4">
+        <FaEyeDropper className="text-2xl text-gray-600" />
+        <span className="ml-2 text-gray-600">
+          Click on the image to pick a color
+        </span>
+      </div>
     </div>
   );
 };
