@@ -1,10 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { FaEyeDropper } from "react-icons/fa"; // Color picker icon from react-icons
 
 const ImageUpload = ({ onReset, showReset }) => {
   const [imageSrc, setImageSrc] = useState(null);
   const [pickedColor, setPickedColor] = useState(null);
+  const [scale, setScale] = useState(1); // Track zoom level (scale factor)
+  const [offset, setOffset] = useState({ x: 0, y: 0 }); // To track zoom origin position
   const canvasRef = useRef(null);
+  const imgRef = useRef(null); // To keep track of the image object
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -15,12 +18,17 @@ const ImageUpload = ({ onReset, showReset }) => {
         img.src = e.target.result;
         img.onload = () => {
           setImageSrc(e.target.result); // Display the uploaded image
+          imgRef.current = img; // Store image reference
 
           const canvas = canvasRef.current;
           const ctx = canvas.getContext("2d");
+
+          // Set canvas dimensions to match the image size
           canvas.width = img.width;
           canvas.height = img.height;
-          ctx.drawImage(img, 0, 0); // Draw the image on the canvas
+
+          // Draw the image on the canvas initially (without zoom)
+          ctx.drawImage(img, 0, 0);
         };
       };
       reader.readAsDataURL(file);
@@ -43,8 +51,65 @@ const ImageUpload = ({ onReset, showReset }) => {
   const handleReset = () => {
     setImageSrc(null);
     setPickedColor(null);
+    setScale(1); // Reset the zoom level
+    setOffset({ x: 0, y: 0 }); // Reset zoom position
     if (onReset) onReset();
   };
+
+  // Handle mouse wheel for zooming in/out
+  const handleWheel = (event) => {
+    event.preventDefault(); // Prevent the default scroll behavior on the page (no screen scrolling)
+
+    const zoomFactor = 0.1; // The zoom sensitivity factor
+    let newScale = scale;
+
+    if (event.deltaY < 0) {
+      // Zoom in (scroll up)
+      newScale = scale + zoomFactor;
+    } else {
+      // Zoom out (scroll down)
+      newScale = scale - zoomFactor;
+    }
+
+    // Limit the zoom scale between 0.5 and 3 for better usability
+    newScale = Math.min(Math.max(0.5, newScale), 3);
+
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Adjust the offset based on the mouse position
+    const offsetX = mouseX - (mouseX - offset.x) * (newScale / scale);
+    const offsetY = mouseY - (mouseY - offset.y) * (newScale / scale);
+
+    setScale(newScale);
+    setOffset({ x: offsetX, y: offsetY });
+  };
+
+  // Redraw the image on the canvas with the new scale and offset
+  const drawImage = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const img = imgRef.current;
+
+    // Clear the canvas before redrawing
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Calculate new width and height based on the scale
+    const scaledWidth = img.width * scale;
+    const scaledHeight = img.height * scale;
+
+    // Draw the image on the canvas with the new scale and offset (panning effect)
+    ctx.drawImage(img, offset.x, offset.y, scaledWidth, scaledHeight);
+  };
+
+  // Trigger image redraw when scale or offset changes
+  useEffect(() => {
+    if (imgRef.current) {
+      drawImage();
+    }
+  }, [scale, offset]);
 
   return (
     <div className="p-4 space-y-4 bg-white rounded-lg shadow-md">
@@ -72,6 +137,7 @@ const ImageUpload = ({ onReset, showReset }) => {
           <canvas
             ref={canvasRef}
             onClick={handleCanvasClick}
+            onWheel={handleWheel} // Add wheel event listener for zooming
             className="w-full h-auto border border-gray-300 rounded-lg"
             style={{ cursor: "crosshair" }} // Set cursor to crosshair
           ></canvas>
@@ -88,7 +154,7 @@ const ImageUpload = ({ onReset, showReset }) => {
       <div className="flex items-center mt-4">
         <FaEyeDropper className="text-2xl text-gray-600" />
         <span className="ml-2 text-gray-600">
-          Click on the image to pick a color
+          Scroll to zoom in/out, and click on the image to pick a color.
         </span>
       </div>
     </div>
