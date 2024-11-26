@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
+import { MdColorLens, MdOutlineColorLens } from "react-icons/md";
+
 
 const ImageUpload = ({ onReset, showReset = true }) => {
   const [imageSrc, setImageSrc] = useState(null);
@@ -114,11 +116,12 @@ const ImageUpload = ({ onReset, showReset = true }) => {
   };
 
   return (
-    <div className="max-w-xl p-6 mx-auto space-y-6 rounded-lg shadow-lg bg-gray-50 dark:bg-gray-800">
-      <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100">
+    <div className="max-w-4xl p-8 mx-auto space-y-10 rounded-lg shadow-lg bg-gray-50 dark:bg-gray-800">
+      <h2 className="text-4xl font-semibold text-center text-gray-800 dark:text-gray-100">
         Image Upload & Zoom
       </h2>
-      <div className="flex flex-col items-center sm:flex-row sm:space-x-4">
+
+      <div className="flex flex-col items-center justify-center space-y-6 sm:flex-row sm:space-x-8 sm:space-y-0">
         <input
           type="file"
           accept="image/*"
@@ -134,50 +137,49 @@ const ImageUpload = ({ onReset, showReset = true }) => {
           </button>
         )}
       </div>
+
       {imageSrc && (
         <div>
-       <canvas
-  ref={canvasRef}
-  onClick={handleCanvasClick}
-  onWheel={handleWheel}
-  onMouseDown={handleMouseDown}
-  onMouseMove={handleMouseMove}
-  onMouseUp={handleMouseUp}
-  onMouseLeave={handleMouseUp}
-  style={{
-    width: `${canvasSize.width}px`,
-    height: `${canvasSize.height}px`,
-    border: "1px solid #e2e8f0",
-    borderRadius: "12px",
-    cursor: scale > 1 ? "grab" : "default",
-    transition: "transform 0.2s ease-in-out",
-    transform: `scale(${scale}) translate(${canvasPos.x}px, ${canvasPos.y}px)`, // Adjust the position when dragging
-    transformOrigin: "center center",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-    margin: "auto",
-    display: "block",
-  }}
-  aria-label="Zoomable canvas for image"
-  role="canvas"
-/>{pickedColor && (
-  <div
-    className="p-4 mt-4 font-medium text-white transition-all duration-300 rounded-lg shadow-lg hover:shadow-xl"
-    style={{
-      backgroundColor: pickedColor,
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    }}
-  >
-    <span>Picked Color:</span>
-    <div
-      className="w-6 h-6 rounded-full"
-      style={{ backgroundColor: pickedColor }}
-    />
-    <span className="ml-2 text-lg">{pickedColor}</span>
-  </div>
-)}
-
+          <canvas
+            ref={canvasRef}
+            onClick={handleCanvasClick}
+            onWheel={handleWheel}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            style={{
+              width: `${canvasSize.width}px`,
+              height: `${canvasSize.height}px`,
+              border: "1px solid #e2e8f0",
+              borderRadius: "12px",
+              cursor: scale > 1 ? "grab" : "default",
+              transition: "transform 0.2s ease-in-out",
+              transform: `scale(${scale}) translate(${canvasPos.x}px, ${canvasPos.y}px)`, // Adjust the position when dragging
+              transformOrigin: "center center",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+              margin: "auto",
+              display: "block",
+            }}
+            aria-label="Zoomable canvas for image"
+            role="canvas"
+          />
+         {pickedColor && (
+        <div
+          className="flex items-center justify-center p-4 mt-4 space-x-3 rounded-lg"
+          style={{
+            backgroundColor: pickedColor,
+          }}
+        >
+          <MdColorLens className="w-6 h-6 text-white" />{/* Correct icon */}
+          <span className="font-medium text-white">Picked Color:</span>
+          <div
+            className="w-6 h-6 rounded-full"
+            style={{ backgroundColor: pickedColor }}
+          />
+          <span className="ml-2 text-white">{pickedColor}</span>
+        </div>
+          )}
         </div>
       )}
     </div>
