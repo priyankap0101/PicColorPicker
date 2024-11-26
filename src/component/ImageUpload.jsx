@@ -99,6 +99,19 @@ const ImageUpload = ({ onReset }) => {
     }
   }, []);
 
+  // Reset image and color
+  const handleResetCanvas = () => {
+    // Reset the state and clear the canvas
+    setImageData(null);
+    setSelectedColor("#ffffff");
+
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+    }
+  };
+
   return (
     <div className="image-upload">
       <h2 className="mb-4 text-xl font-semibold">
@@ -145,7 +158,7 @@ const ImageUpload = ({ onReset }) => {
       {/* Reset Button */}
       {imageData && (
         <button
-          onClick={onReset}
+          onClick={handleResetCanvas} // Ensure this is connected to the reset handler
           className="p-2 mt-4 text-white bg-red-500 rounded"
         >
           Reset Canvas
