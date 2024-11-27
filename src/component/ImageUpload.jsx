@@ -55,17 +55,25 @@ const ImageUpload = () => {
   const handleCanvasClick = (e) => {
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+
+    // Calculate canvas coordinates considering potential scaling
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
 
     const ctx = canvas.getContext("2d");
+
+    // Ensure the color data is fetched correctly considering canvas transformations
     const pixel = ctx.getImageData(x, y, 1, 1).data;
     const color = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
 
     setTooltip({ show: true, x: e.clientX, y: e.clientY, color });
     setSelectedColor(rgbToHex(pixel[0], pixel[1], pixel[2])); // Update selected color
 
-    setTimeout(() => setTooltip({ show: false, x: 0, y: 0, color: "" }), 2000);
+    // Delay hiding the tooltip to give user time to view it
+    setTimeout(() => setTooltip({ show: false, x: 0, y: 0, color: "" }), 3000); // Increased timeout for better UX
   };
 
   // Convert RGB to HEX
