@@ -136,26 +136,6 @@ const ImageUpload = () => {
             Drag & Drop an Image Here <br /> or Click to Upload
           </p>
         )}
-
-        {/* Tooltip for Color Picker */}
-        {tooltip.show && (
-          <div
-            style={{
-              position: "absolute",
-              top: `${tooltip.y}px`,
-              left: `${tooltip.x}px`,
-              backgroundColor: "#000",
-              color: "#fff",
-              padding: "5px",
-              borderRadius: "5px",
-              transform: "translate(-50%, -150%)",
-              fontSize: "12px",
-              zIndex: 10,
-            }}
-          >
-            {tooltip.color}
-          </div>
-        )}
       </div>
 
       {/* Error Message */}
