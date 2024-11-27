@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { FaRedo } from "react-icons/fa"; // Reset button icon
 
 const ImageUpload = () => {
   const canvasRef = useRef(null);
@@ -99,7 +100,9 @@ const ImageUpload = () => {
   return (
     <div className="image-upload">
       {/* Section Title */}
-      <h2 className="mb-4 text-xl font-semibold">Canvas Section</h2>
+      {/* <h1 className="mb-8 text-3xl font-extrabold leading-tight tracking-tight text-center text-gray-900 transition-all duration-300 transform sm:text-4xl lg:text-3xl dark:text-white hover:text-indigo-600 motion-safe:animate-fade-in-up">
+        Upload Your Image, Choose Your Color
+      </h1> */}
 
       {/* Hidden File Input */}
       <input
@@ -129,7 +132,7 @@ const ImageUpload = () => {
           width: "100%",
           maxWidth: "800px",
           height: "500px",
-          background: imageData ? "transparent" : "#f9f9f9",
+          // background: imageData ? "transparent" : "#f9f9f9",
         }}
       >
         <canvas
@@ -172,9 +175,9 @@ const ImageUpload = () => {
       {imageData && (
         <button
           onClick={handleResetCanvas}
-          className="p-2 mt-4 text-white bg-red-500 rounded"
+          className="flex items-center justify-center w-full py-3 mt-6 font-semibold text-white transition-transform duration-300 shadow-md bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 rounded-xl hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-pink-500/50"
         >
-          Reset Canvas
+          <FaRedo className="mr-2" /> Reset
         </button>
       )}
     </div>
