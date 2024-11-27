@@ -1,82 +1,71 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 
-const ImageUpload = ({ onReset }) => {
+const ImageUpload = () => {
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
   const [selectedColor, setSelectedColor] = useState("#ffffff");
+  const [tooltip, setTooltip] = useState({
+    show: false,
+    x: 0,
+    y: 0,
+    color: "",
+  });
+  const [error, setError] = useState("");
+  const fileInputRef = useRef(null);
 
-  const MAX_WIDTH = 800; // Maximum width for the canvas
-  const MAX_HEIGHT = 600; // Maximum height for the canvas
+  // Handle Image Upload
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext("2d");
 
-  // Handle image upload
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+          // Resize canvas to match the image
+          canvas.width = img.width;
+          canvas.height = img.height;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.src = e.target.result;
-
-      img.onload = () => {
-        // After the image is loaded, we can safely access the canvasRef
-        const canvas = canvasRef.current;
-        if (!canvas) {
-          console.error("Canvas element not found!");
-          return;
-        }
-
-        const ctx = canvas.getContext("2d");
-
-        // Resize the canvas to fit the image (with max width/height)
-        let width = img.width;
-        let height = img.height;
-
-        if (width > MAX_WIDTH || height > MAX_HEIGHT) {
-          const aspectRatio = width / height;
-
-          if (width > height) {
-            width = MAX_WIDTH;
-            height = MAX_WIDTH / aspectRatio;
-          } else {
-            height = MAX_HEIGHT;
-            width = MAX_HEIGHT * aspectRatio;
-          }
-        }
-
-        // Set canvas size and draw the image
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(img, 0, 0, width, height);
-
-        setImageData(img); // Save image data for later use
+          // Draw the image on the canvas
+          ctx.drawImage(img, 0, 0);
+          setImageData(img);
+        };
+        img.src = reader.result;
       };
-
-      img.onerror = () => {
-        console.error("Error loading image.");
-      };
-    };
-
-    reader.onerror = () => {
-      console.error("Error reading file.");
-    };
-
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+      setError(""); // Clear any existing errors
+    } else {
+      setError("Invalid file type. Please upload an image.");
+    }
   };
 
-  // Handle canvas click to pick color
-  const handleCanvasClick = (event) => {
+  // Handle Reset Canvas
+  const handleResetCanvas = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    setImageData(null);
+    setSelectedColor("#ffffff");
+    setError("");
+  };
+
+  // Handle Tooltip (Color Picker)
+  const handleCanvasClick = (e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect(); // Get canvas position
-    const x = event.clientX - rect.left; // Calculate X position of click
-    const y = event.clientY - rect.top; // Calculate Y position of click
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    const color = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
 
-    const pixelData = ctx.getImageData(x, y, 1, 1).data; // Get pixel data (RGBA)
-    const hexColor = rgbToHex(pixelData[0], pixelData[1], pixelData[2]); // Convert to HEX
-    setSelectedColor(hexColor); // Update selected color
+    setTooltip({ show: true, x: e.clientX, y: e.clientY, color });
+    setSelectedColor(rgbToHex(pixel[0], pixel[1], pixel[2])); // Update selected color
+
+    setTimeout(() => setTooltip({ show: false, x: 0, y: 0, color: "" }), 2000);
   };
 
   // Convert RGB to HEX
@@ -92,64 +81,100 @@ const ImageUpload = ({ onReset }) => {
     );
   };
 
-  // Using useEffect to ensure canvas is rendered before performing any actions
-  useEffect(() => {
-    if (canvasRef.current) {
-      console.log("Canvas is now available!");
-    }
-  }, []);
-
-  // Reset image and color
-  const handleResetCanvas = () => {
-    // Reset the state and clear the canvas
-    setImageData(null);
-    setSelectedColor("#ffffff");
-
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+  // Handle Canvas Area Click to Open File Explorer (only if no image is uploaded)
+  const handleCanvasAreaClick = () => {
+    if (!imageData) {
+      fileInputRef.current.click(); // Simulate file input click if no image is present
     }
   };
 
   return (
     <div className="image-upload">
-      <h2 className="mb-4 text-xl font-semibold">
-        Image Upload and Color Picker
-      </h2>
+      {/* Section Title */}
+      <h2 className="mb-4 text-xl font-semibold">Canvas Section</h2>
 
-      {/* Image Upload */}
+      {/* Hidden File Input */}
       <input
         type="file"
         accept="image/*"
         onChange={handleImageUpload}
-        className="p-2 mt-4 border rounded"
+        ref={fileInputRef}
+        className="hidden"
+        id="file-upload"
       />
 
-      {/* Canvas for Image */}
-      <canvas
-        ref={canvasRef}
-        style={{
-          border: "1px solid #ccc",
-          cursor: "crosshair",
-          marginTop: "20px",
+      {/* Drag-and-Drop Area / Canvas */}
+      <div
+        className="relative flex items-center justify-center mt-6 transition-all border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-blue-500 hover:shadow-lg"
+        onClick={handleCanvasAreaClick} // Open file explorer
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault();
+          const file = e.dataTransfer.files[0];
+          if (file && file.type.startsWith("image/")) {
+            handleImageUpload({ target: { files: [file] } });
+          } else {
+            setError("Invalid file type. Please upload an image.");
+          }
         }}
-        onClick={handleCanvasClick}
-      ></canvas>
+        style={{
+          width: "100%",
+          maxWidth: "800px",
+          height: "500px",
+          background: imageData ? "transparent" : "#f9f9f9",
+        }}
+      >
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full cursor-crosshair"
+          onClick={handleCanvasClick}
+        ></canvas>
+
+        {/* Placeholder Text */}
+        {!imageData && (
+          <p className="absolute text-center text-gray-500">
+            Drag & Drop an Image Here <br /> or Click to Upload
+          </p>
+        )}
+
+        {/* Tooltip for Color Picker */}
+        {tooltip.show && (
+          <div
+            style={{
+              position: "absolute",
+              top: `${tooltip.y}px`,
+              left: `${tooltip.x}px`,
+              backgroundColor: "#000",
+              color: "#fff",
+              padding: "5px",
+              borderRadius: "5px",
+              transform: "translate(-50%, -150%)",
+              fontSize: "12px",
+              zIndex: 10,
+            }}
+          >
+            {tooltip.color}
+          </div>
+        )}
+      </div>
+
+      {/* Error Message */}
+      {error && <p className="mt-2 text-red-500">{error}</p>}
 
       {/* Selected Color Display */}
       {imageData && (
-        <div className="mt-4">
+        <div className="flex items-center mt-4 space-x-4">
+          {/* Color Box */}
           <div
             style={{
-              display: "inline-block",
               width: "50px",
               height: "50px",
               backgroundColor: selectedColor,
               border: "1px solid #000",
             }}
           ></div>
-          <p className="mt-2 text-gray-700">
+          {/* Color Code */}
+          <p className="text-gray-700">
             Selected Color: <span className="font-bold">{selectedColor}</span>
           </p>
         </div>
@@ -158,7 +183,7 @@ const ImageUpload = ({ onReset }) => {
       {/* Reset Button */}
       {imageData && (
         <button
-          onClick={handleResetCanvas} // Ensure this is connected to the reset handler
+          onClick={handleResetCanvas}
           className="p-2 mt-4 text-white bg-red-500 rounded"
         >
           Reset Canvas
