@@ -22,10 +22,10 @@ const App = () => {
 
       {/* Header */}
       <div className="text-center">
-        <div className="inline-block p-4 rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
-          <BsCloudUpload className="text-3xl text-white drop-shadow-lg" />
+        <div className="inline-block p-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
+          <BsCloudUpload className="text-white drop-shadow-lg" />
         </div>
-        <h1 className="mt-2 text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-purple-400 to-pink-500 drop-shadow-xl">
+        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-purple-400 to-pink-500 drop-shadow-xl">
           Upload Your Image, Choose Your Color
         </h1>
       </div>

@@ -131,7 +131,7 @@ const ImageUpload = () => {
         style={{
           width: "100%",
           maxWidth: "800px",
-          height: "500px",
+          height: "300px",
           // background: imageData ? "transparent" : "#f9f9f9",
         }}
       >
@@ -175,9 +175,11 @@ const ImageUpload = () => {
       {imageData && (
         <button
           onClick={handleResetCanvas}
-          className="flex items-center justify-center w-full py-3 mt-6 font-semibold text-white transition-transform duration-300 shadow-md bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 rounded-xl hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-pink-500/50"
+          className="flex items-center justify-center w-full px-6 py-3 mt-6 font-medium text-white transition-all duration-300 ease-in-out rounded-full shadow-lg bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-br active:scale-95 active:shadow-md focus:outline-none focus:ring-4 focus:ring-pink-500/60 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-900"
+          aria-label="Reset canvas"
         >
-          <FaRedo className="mr-2" /> Reset
+          <FaRedo className="mr-2 text-xl" aria-hidden="true" />
+          Reset
         </button>
       )}
     </div>
