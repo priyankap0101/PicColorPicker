@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { FaRedo } from "react-icons/fa"; // Reset button icon
-
+import { BsCloudUpload } from "react-icons/bs"; // Header icon
 const ImageUpload = () => {
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
@@ -103,6 +103,25 @@ const ImageUpload = () => {
       {/* <h1 className="mb-8 text-3xl font-extrabold leading-tight tracking-tight text-center text-gray-900 transition-all duration-300 transform sm:text-4xl lg:text-3xl dark:text-white hover:text-indigo-600 motion-safe:animate-fade-in-up">
         Upload Your Image, Choose Your Color
       </h1> */}
+
+      {/* Header */}
+      <div className="flex flex-col items-center space-y-4">
+        {/* Icon */}
+        <div
+          className="flex items-center justify-center transition-shadow duration-300 rounded-full shadow-lg w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-500 hover:shadow-xl"
+          aria-label="Upload Icon"
+        >
+          <BsCloudUpload className="text-3xl text-white" />
+        </div>
+
+        {/* Title */}
+        <h1 className="text-2xl font-bold tracking-wide text-center">
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-400 to-purple-400">
+            Upload Your Image
+          </span>
+          <span className="block text-gray-300">Choose Your Color</span>
+        </h1>
+      </div>
 
       {/* Hidden File Input */}
       <input
