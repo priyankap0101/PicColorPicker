@@ -26,8 +26,18 @@ const App = () => {
       </div>
 
       {/* Footer */}
-      <footer className="mt-4 text-sm text-gray-400">
-        Built with ❤️ by Priyanka
+      <footer className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+        <div className="flex items-center justify-center space-x-1">
+          <span>Built with</span>
+          <span
+            className="text-red-500 animate-pulse"
+            aria-label="love"
+            role="img"
+          >
+            ❤️
+          </span>
+          <span>by Priyanka</span>
+        </div>
       </footer>
     </div>
   );
