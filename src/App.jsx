@@ -26,9 +26,9 @@ const App = () => {
       </div>
 
       {/* Footer */}
-      <footer className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-        <div className="flex items-center justify-center space-x-1">
-          <span>Built with</span>
+      <footer className="mt-6 text-sm text-center text-gray-500 dark:text-gray-400">
+        <div className="flex items-center justify-center space-x-2">
+          <span className="font-medium tracking-wide">Built with</span>
           <span
             className="text-red-500 animate-pulse"
             aria-label="love"
@@ -36,8 +36,11 @@ const App = () => {
           >
             ❤️
           </span>
-          <span>by Priyanka</span>
+          <span className="font-medium tracking-wide">by Priyanka</span>
         </div>
+        <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
+          © 2024. All rights reserved.
+        </p>
       </footer>
     </div>
   );
