@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import ImageUpload from "./component/ImageUpload";
 
@@ -26,7 +27,7 @@ const App = () => {
       </div>
 
       {/* Footer */}
-      <footer className="py-6 mt-10 text-gray-400">
+      <footer className="py-6 mt-4 text-gray-400">
         <div className="container flex flex-col items-center px-4 mx-auto space-y-6">
           {/* Main Message */}
           <div className="flex items-center space-x-2 text-sm md:text-base">
