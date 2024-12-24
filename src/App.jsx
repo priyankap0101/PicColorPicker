@@ -46,28 +46,28 @@ const App = () => {
           <div className="flex items-center justify-center space-x-5">
             <a
               href="#"
-              className="text-gray-400 transition duration-300 hover:text-blue-400"
+              className="text-gray-400 transition-transform duration-300 hover:text-blue-400 hover:scale-110"
               aria-label="LinkedIn"
             >
               <i className="text-xl fab fa-linkedin"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition duration-300 hover:text-blue-500"
+              className="text-gray-400 transition-transform duration-300 hover:text-blue-500 hover:scale-110"
               aria-label="Twitter"
             >
               <i className="text-xl fab fa-twitter"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition duration-300 hover:text-pink-500"
+              className="text-gray-400 transition-transform duration-300 hover:text-pink-500 hover:scale-110"
               aria-label="Instagram"
             >
               <i className="text-xl fab fa-instagram"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition duration-300 hover:text-gray-300"
+              className="text-gray-400 transition-transform duration-300 hover:text-gray-300 hover:scale-110"
               aria-label="GitHub"
             >
               <i className="text-xl fab fa-github"></i>
