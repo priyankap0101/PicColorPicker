@@ -26,21 +26,58 @@ const App = () => {
       </div>
 
       {/* Footer */}
-      <footer className="mt-6 text-sm text-center text-gray-500 dark:text-gray-400">
-        <div className="flex items-center justify-center space-x-2">
-          <span className="font-medium tracking-wide">Built with</span>
-          <span
-            className="text-red-500 animate-pulse"
-            aria-label="love"
-            role="img"
-          >
-            ❤️
-          </span>
-          <span className="font-medium tracking-wide">by Priyanka</span>
+      <footer className="py-6 mt-10 text-gray-400">
+        <div className="container flex flex-col items-center px-4 mx-auto space-y-6">
+          {/* Main Message */}
+          <div className="flex items-center space-x-2 text-sm md:text-base">
+            <span className="font-medium tracking-wide">Built with</span>
+            <span
+              className="text-red-500 animate-pulse"
+              aria-label="love"
+              role="img"
+            >
+              ❤️
+            </span>
+            <span className="font-medium tracking-wide">by Priyanka</span>
+          </div>
+
+          {/* Social Media Links */}
+          <div className="flex items-center justify-center space-x-5">
+            <a
+              href="#"
+              className="text-gray-400 transition duration-300 hover:text-blue-400"
+              aria-label="LinkedIn"
+            >
+              <i className="text-xl fab fa-linkedin"></i>
+            </a>
+            <a
+              href="#"
+              className="text-gray-400 transition duration-300 hover:text-blue-500"
+              aria-label="Twitter"
+            >
+              <i className="text-xl fab fa-twitter"></i>
+            </a>
+            <a
+              href="#"
+              className="text-gray-400 transition duration-300 hover:text-pink-500"
+              aria-label="Instagram"
+            >
+              <i className="text-xl fab fa-instagram"></i>
+            </a>
+            <a
+              href="#"
+              className="text-gray-400 transition duration-300 hover:text-gray-300"
+              aria-label="GitHub"
+            >
+              <i className="text-xl fab fa-github"></i>
+            </a>
+          </div>
+
+          {/* Copyright Section */}
+          <p className="text-xs text-center text-gray-500 md:text-sm">
+            © 2024 Priyanka. All rights reserved.
+          </p>
         </div>
-        <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
-          © 2024. All rights reserved.
-        </p>
       </footer>
     </div>
   );
