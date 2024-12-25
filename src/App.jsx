@@ -43,34 +43,34 @@ const App = () => {
           </div>
 
           {/* Social Media Links */}
-          <div className="flex items-center justify-center space-x-5">
+          <div className="flex items-center justify-center space-x-6">
             <a
               href="#"
-              className="text-gray-400 transition-transform duration-300 hover:text-blue-400 hover:scale-110"
+              className="text-gray-400 transition-transform duration-300 hover:text-blue-400 hover:scale-125 hover:shadow-2xl hover:rotate-3 focus:outline-none"
               aria-label="LinkedIn"
             >
-              <i className="text-xl fab fa-linkedin"></i>
+              <i className="text-2xl fab fa-linkedin"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition-transform duration-300 hover:text-blue-500 hover:scale-110"
+              className="text-gray-400 transition-transform duration-300 hover:text-blue-500 hover:scale-125 hover:shadow-2xl hover:rotate-3 focus:outline-none"
               aria-label="Twitter"
             >
-              <i className="text-xl fab fa-twitter"></i>
+              <i className="text-2xl fab fa-twitter"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition-transform duration-300 hover:text-pink-500 hover:scale-110"
+              className="text-gray-400 transition-transform duration-300 hover:text-pink-500 hover:scale-125 hover:shadow-2xl hover:rotate-3 focus:outline-none"
               aria-label="Instagram"
             >
-              <i className="text-xl fab fa-instagram"></i>
+              <i className="text-2xl fab fa-instagram"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition-transform duration-300 hover:text-gray-300 hover:scale-110"
+              className="text-gray-400 transition-transform duration-300 hover:text-gray-300 hover:scale-125 hover:shadow-2xl hover:rotate-3 focus:outline-none"
               aria-label="GitHub"
             >
-              <i className="text-xl fab fa-github"></i>
+              <i className="text-2xl fab fa-github"></i>
             </a>
           </div>
 

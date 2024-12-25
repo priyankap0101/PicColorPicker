@@ -108,10 +108,10 @@ const ImageUpload = () => {
       <div className="flex flex-col items-center space-y-4">
         {/* Icon */}
         <div
-          className="flex items-center justify-center transition-shadow duration-300 rounded-full shadow-lg w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-500 hover:shadow-xl"
+          className="flex items-center justify-center w-16 h-16 transition-all duration-300 rounded-full shadow-lg bg-gradient-to-br from-blue-500 to-purple-600 hover:scale-110 hover:shadow-2xl hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-purple-300 active:scale-95 active:shadow-md"
           aria-label="Upload Icon"
         >
-          <BsCloudUpload className="text-3xl text-white" />
+          <BsCloudUpload className="text-4xl text-white drop-shadow-lg animate-fadeIn" />
         </div>
 
         {/* Title */}
