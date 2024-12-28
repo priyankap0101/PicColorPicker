@@ -108,11 +108,11 @@ const ImageUpload = () => {
       <div className="flex flex-col items-center space-y-4">
         {/* Icon */}
         <div
-          className="flex items-center justify-center w-16 h-16 transition-all duration-300 transform rounded-full shadow-lg bg-gradient-to-br from-blue-500 to-purple-600 hover:scale-110 hover:shadow-3xl hover:brightness-125 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-4 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 active:scale-95 active:shadow-inner active:from-purple-700 active:to-blue-600"
+          className="flex items-center justify-center w-16 h-16 transition-transform duration-300 transform rounded-full shadow-lg bg-gradient-to-br from-blue-500 to-purple-600 hover:scale-110 hover:shadow-4xl hover:brightness-125 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-4 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 active:scale-95 active:shadow-inner active:from-purple-800 active:to-blue-700 motion-reduce:transition-none motion-reduce:hover:scale-100"
           aria-label="Upload Icon"
           tabIndex={0}
         >
-          <BsCloudUpload className="text-4xl text-white drop-shadow-lg animate-[fadeIn_0.8s_ease-out] hover:animate-[pulse_1s_infinite] hover:drop-shadow-2xl" />
+          <BsCloudUpload className="text-4xl text-white drop-shadow-xl animate-[fadeIn_0.8s_ease-out] hover:animate-[pulse_1.2s_ease-in-out_infinite] hover:drop-shadow-4xl dark:drop-shadow-md" />
         </div>
 
         {/* Title */}
