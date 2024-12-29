@@ -116,11 +116,13 @@ const ImageUpload = () => {
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold tracking-wide text-center">
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-400 to-purple-400">
+        <h1 className="text-3xl font-extrabold leading-relaxed tracking-tight text-center">
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-400 to-purple-400 animate-textGradient">
             Upload Your Image
           </span>
-          <span className="block text-gray-300">Choose Your Color</span>
+          <span className="block mt-2 text-lg font-medium text-gray-300 dark:text-gray-400">
+            Choose Your Color
+          </span>
         </h1>
       </div>
 
