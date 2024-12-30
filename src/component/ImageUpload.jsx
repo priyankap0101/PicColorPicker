@@ -120,9 +120,10 @@ const ImageUpload = () => {
           <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-400 to-purple-400 animate-gradient text-shadow-lg hover:scale-110 hover:brightness-125 hover:drop-shadow-[0_0_60px_rgba(0,255,255,0.9)] transition-all duration-700 ease-in-out">
             Upload Your Image
           </span>
-          <span className="block mt-4 text-xl font-medium text-gray-300 transition-all duration-300 ease-in-out dark:text-gray-400 hover:text-gray-200 dark:hover:text-gray-300 hover:tracking-wider hover:scale-105 hover:opacity-90 hover:underline underline-offset-4">
+          <span className="block mt-4 text-xl font-semibold text-gray-300 transition-all duration-500 ease-in-out dark:text-gray-400 hover:text-teal-400 dark:hover:text-purple-400 hover:scale-105 hover:opacity-100 hover:underline underline-offset-8 decoration-2 decoration-teal-400 dark:decoration-purple-400 focus:outline-none focus:ring-2 focus:ring-teal-400 dark:focus:ring-purple-400">
             Choose Your Color
           </span>
+
           <div className="relative h-1 mt-6 overflow-hidden rounded-full w-80 bg-gradient-to-r from-teal-400 to-purple-400">
             <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 opacity-80 animate-gradient-slide blur-md"></span>
           </div>
