@@ -123,7 +123,7 @@ const ImageUpload = () => {
           </span>
 
           {/* Subheading */}
-          <span className="block mt-6 text-2xl font-medium text-gray-500 transition-all duration-500 ease-in-out dark:text-gray-400 hover:text-cyan-400 dark:hover:text-purple-500 hover:scale-105 hover:opacity-100 hover:underline underline-offset-8 decoration-4 decoration-cyan-400 dark:decoration-purple-500 focus:outline-none focus:ring-4 focus:ring-cyan-400 dark:focus:ring-purple-500">
+          <span className="block mt-6 text-2xl font-semibold transition-all duration-300 ease-in-out dark:text-gray-100 hover:text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-300 to-yellow-400 dark:from-indigo-500 dark:via-pink-400 dark:to-yellow-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:focus:ring-yellow-500">
             Choose Your Color
           </span>
 
