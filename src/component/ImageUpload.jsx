@@ -116,17 +116,26 @@ const ImageUpload = () => {
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl font-extrabold leading-tight tracking-tighter text-center">
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-400 to-purple-400 animate-gradient text-shadow-lg hover:scale-110 hover:brightness-125 hover:drop-shadow-[0_0_60px_rgba(0,255,255,0.9)] transition-all duration-700 ease-in-out">
+        <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-center">
+          {/* Main Heading */}
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-gradient text-shadow-xl hover:scale-110 hover:brightness-150 hover:drop-shadow-[0_0_50px_rgba(0,255,255,0.9)] transition-transform duration-700 ease-in-out">
             Upload Your Image
           </span>
-          <span className="block mt-4 text-xl font-semibold text-gray-300 transition-all duration-500 ease-in-out dark:text-gray-400 hover:text-teal-400 dark:hover:text-purple-400 hover:scale-105 hover:opacity-100 hover:underline underline-offset-8 decoration-2 decoration-teal-400 dark:decoration-purple-400 focus:outline-none focus:ring-2 focus:ring-teal-400 dark:focus:ring-purple-400">
+
+          {/* Subheading */}
+          <span className="block mt-6 text-2xl font-medium text-gray-500 transition-all duration-500 ease-in-out dark:text-gray-400 hover:text-cyan-400 dark:hover:text-purple-500 hover:scale-105 hover:opacity-100 hover:underline underline-offset-8 decoration-4 decoration-cyan-400 dark:decoration-purple-500 focus:outline-none focus:ring-4 focus:ring-cyan-400 dark:focus:ring-purple-500">
             Choose Your Color
           </span>
 
-          <div className="relative h-1 mt-6 overflow-hidden rounded-full w-80 bg-gradient-to-r from-teal-400 to-purple-400">
-            <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 opacity-80 animate-gradient-slide blur-md"></span>
-          </div>
+          {/* Divider with Animation */}
+          {/* <div className="relative h-2 mt-8 overflow-hidden rounded-full w-[90%] max-w-lg mx-auto bg-gradient-to-r from-cyan-400 to-purple-600 shadow-lg">
+            <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-500 opacity-70 animate-gradient-slide blur-lg"></span>
+          </div> */}
+
+          {/* Action Button */}
+          {/* <button className="px-6 py-3 mt-8 font-semibold text-white transition-all duration-500 ease-in-out rounded-lg shadow-md bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 hover:scale-105 hover:brightness-125 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-cyan-400 dark:focus:ring-purple-500">
+            Get Started
+          </button> */}
         </h1>
       </div>
 
