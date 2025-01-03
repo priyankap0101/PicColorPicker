@@ -46,28 +46,28 @@ const App = () => {
           <div className="flex items-center justify-center space-x-6">
             <a
               href="#"
-              className="text-gray-400 transition-transform duration-300 hover:text-blue-400 hover:scale-125 hover:shadow-2xl hover:rotate-3 focus:outline-none"
+              className="text-gray-400 transition-all duration-300 transform hover:text-blue-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100"
               aria-label="LinkedIn"
             >
               <i className="text-2xl fab fa-linkedin"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition-transform duration-300 hover:text-blue-500 hover:scale-125 hover:shadow-2xl hover:rotate-3 focus:outline-none"
+              className="text-gray-400 transition-all duration-300 transform hover:text-blue-400 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-400/30 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-100"
               aria-label="Twitter"
             >
               <i className="text-2xl fab fa-twitter"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition-transform duration-300 hover:text-pink-500 hover:scale-125 hover:shadow-2xl hover:rotate-3 focus:outline-none"
+              className="text-gray-400 transition-all duration-300 transform hover:text-pink-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-pink-500/30 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-gray-100"
               aria-label="Instagram"
             >
               <i className="text-2xl fab fa-instagram"></i>
             </a>
             <a
               href="#"
-              className="text-gray-400 transition-transform duration-300 hover:text-gray-300 hover:scale-125 hover:shadow-2xl hover:rotate-3 focus:outline-none"
+              className="text-gray-400 transition-all duration-300 transform hover:text-gray-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gray-300/30 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-100"
               aria-label="GitHub"
             >
               <i className="text-2xl fab fa-github"></i>
