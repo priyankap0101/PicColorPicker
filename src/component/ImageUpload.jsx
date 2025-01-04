@@ -118,7 +118,14 @@ const ImageUpload = () => {
         {/* Title */}
         <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-center">
           {/* Main Heading */}
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-gradient text-shadow-xl hover:scale-110 hover:brightness-150 hover:drop-shadow-[0_0_50px_rgba(0,255,255,0.9)] transition-transform duration-700 ease-in-out">
+          <span
+            className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-purple-500 to-pink-600 
+  text-shadow-lg transition-transform duration-700 ease-out 
+  hover:scale-105 hover:drop-shadow-[0_12px_30px_rgba(0,200,255,0.6),0_8px_20px_rgba(255,0,200,0.4)] 
+  hover:brightness-125 hover:saturate-150 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-400 
+  focus-visible:ring-offset-4 focus-visible:ring-offset-gray-100 dark:focus-visible:ring-offset-gray-800 
+  dark:from-cyan-500 dark:via-indigo-600 dark:to-purple-700 animate-gradient-slow hover:animate-pulse"
+          >
             Upload Your Image
           </span>
 
@@ -151,7 +158,7 @@ const ImageUpload = () => {
 
       {/* Drag-and-Drop Area / Canvas */}
       <div
-        className="relative flex items-center justify-center px-8 py-6 mt-6 transition-all duration-300 ease-in-out transform bg-white cursor-pointer rounded-xl dark:bg-gray-800 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-lg dark:hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 active:scale-95"
+        className="relative flex items-center justify-center px-8 py-6 mt-6 transition-all duration-300 ease-in-out transform bg-white cursor-pointer rounded-xl dark:bg-gray-800 hover:scale-100 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-lg dark:hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 active:scale-95"
         onClick={handleCanvasAreaClick} // Open file explorer
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
