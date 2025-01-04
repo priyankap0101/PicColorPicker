@@ -108,7 +108,7 @@ const ImageUpload = () => {
       <div className="flex flex-col items-center space-y-4">
         {/* Icon */}
         <div
-          className="flex items-center justify-center w-16 h-16 rounded-full shadow-[0_4px_8px_rgba(0,0,0,0.2),0_10px_20px_rgba(0,0,0,0.1)] bg-gradient-to-br from-blue-500 to-purple-600 transition-transform duration-300 transform hover:scale-110 hover:shadow-[0_6px_12px_rgba(0,0,0,0.3),0_15px_30px_rgba(0,0,0,0.2)] hover:brightness-125 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-4 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 active:scale-95 active:shadow-[inset_0_4px_8px_rgba(0,0,0,0.3),inset_0_2px_6px_rgba(255,255,255,0.2)] motion-reduce:transition-none motion-reduce:hover:scale-100"
+          className="flex items-center justify-center w-12 h-12 rounded-full shadow-[0_2px_4px_rgba(0,0,0,0.2),0_5px_10px_rgba(0,0,0,0.1)] bg-gradient-to-br from-blue-500 to-purple-600 transition-transform duration-300 transform hover:scale-110 hover:shadow-[0_4px_8px_rgba(0,0,0,0.3),0_10px_20px_rgba(0,0,0,0.2)] hover:brightness-125 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-4 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 active:scale-95 active:shadow-[inset_0_3px_6px_rgba(0,0,0,0.3),inset_0_1px_4px_rgba(255,255,255,0.2)] motion-reduce:transition-none motion-reduce:hover:scale-100"
           aria-label="Upload Icon"
           tabIndex={0}
         >
@@ -116,7 +116,7 @@ const ImageUpload = () => {
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-center">
+        <h1 className="text-2xl font-extrabold leading-tight tracking-tight text-center">
           {/* Main Heading */}
           <span
             className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-purple-500 to-pink-600 
@@ -124,13 +124,13 @@ const ImageUpload = () => {
   hover:scale-105 hover:drop-shadow-[0_12px_30px_rgba(0,200,255,0.6),0_8px_20px_rgba(255,0,200,0.4)] 
   hover:brightness-125 hover:saturate-150 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-400 
   focus-visible:ring-offset-4 focus-visible:ring-offset-gray-100 dark:focus-visible:ring-offset-gray-800 
-  dark:from-cyan-500 dark:via-indigo-600 dark:to-purple-700 animate-gradient-slow hover:animate-pulse"
+  dark:from-cyan-500 dark:via-indigo-600 dark:to-purple-700 animate-gradient-slow hover:animate-pulse  "
           >
             Upload Your Image
           </span>
 
           {/* Subheading */}
-          <span className="block text-2xl font-semibold text-white transition-all duration-300 ease-in-out bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 hover:text-transparent hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-400">
+          <span className="block text-lg font-semibold text-white transition-all duration-300 ease-in-out bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 hover:text-transparent hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-400">
             Choose Your Color
           </span>
 
@@ -172,8 +172,8 @@ const ImageUpload = () => {
         }}
         style={{
           width: "100%",
-          maxWidth: "800px",
-          height: "300px",
+          maxWidth: "500px",
+          height: "150px",
           // background: imageData ? "transparent" : "#f9f9f9",
         }}
       >
