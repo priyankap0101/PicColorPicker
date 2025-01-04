@@ -151,7 +151,7 @@ const ImageUpload = () => {
 
       {/* Drag-and-Drop Area / Canvas */}
       <div
-        className="relative flex items-center justify-center mt-6 transition-all border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-blue-500 hover:shadow-lg"
+        className="relative flex items-center justify-center px-8 py-6 mt-6 transition-all duration-300 ease-in-out transform bg-white cursor-pointer rounded-xl dark:bg-gray-800 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-lg dark:hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 active:scale-95"
         onClick={handleCanvasAreaClick} // Open file explorer
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
