@@ -218,18 +218,18 @@ const ImageUpload = () => {
       {imageData && (
         <button
           onClick={handleResetCanvas}
-          className="relative flex items-center justify-center px-5 py-3 mx-auto mt-6 text-sm font-semibold text-white transition-transform duration-300 ease-in-out rounded-full shadow-lg sm:px-6 sm:py-3 sm:text-base bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:scale-105 hover:shadow-xl hover:brightness-110 active:scale-95 active:shadow-inner focus:outline-none focus:ring-4 focus:ring-pink-400/70 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 dark:from-purple-600 dark:via-pink-600 dark:to-indigo-600 dark:hover:brightness-125 dark:active:scale-95"
-          aria-label="Reset canvas"
+          className="relative flex items-center justify-center px-4 py-2 mx-auto mt-6 text-sm font-medium text-white transition-all duration-300 ease-in-out transform rounded-full shadow-lg sm:px-5 sm:py-3 sm:text-base bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:scale-105 hover:shadow-xl hover:brightness-110 active:scale-95 active:shadow-inner focus:outline-none focus:ring-4 focus:ring-pink-400/70 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 dark:from-purple-600 dark:via-pink-600 dark:to-indigo-600 dark:hover:brightness-125 dark:active:scale-95"
+          aria-label="Reset Canvas Button"
         >
           {/* Glow Effect for Hover */}
           <span
-            className="absolute inset-0 transition-opacity duration-300 rounded-full opacity-0 bg-white/10 hover:opacity-20"
+            className="absolute inset-0 transition-opacity duration-300 rounded-full opacity-0 bg-white/10 hover:opacity-20 focus:opacity-25"
             aria-hidden="true"
           ></span>
 
-          {/* Icon with Adjusted Spacing */}
-          <FaRedo className="mr-3 text-lg sm:text-xl" aria-hidden="true" />
-          <span>Reset</span>
+          {/* Icon with Improved Alignment */}
+          <FaRedo className="mr-2 text-lg sm:text-xl" aria-hidden="true" />
+          <span>Reset Canvas</span>
         </button>
       )}
     </div>
