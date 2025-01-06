@@ -185,9 +185,11 @@ const ImageUpload = () => {
 
         {/* Placeholder Text */}
         {!imageData && (
-          <p className="absolute text-lg font-medium text-center text-gray-500 opacity-80">
+          <p className="absolute text-base font-medium tracking-wide text-center text-gray-500 opacity-90 sm:text-lg">
             Drag & Drop an Image Here <br />
-            <span className="text-indigo-500">or Click to Upload</span>
+            <span className="text-indigo-500 underline transition-all duration-300 ease-in-out decoration-dotted decoration-indigo-500 hover:text-indigo-600 hover:decoration-solid hover:scale-105 hover:shadow-md hover:shadow-indigo-300/50">
+              or Click to Upload
+            </span>
           </p>
         )}
       </div>
