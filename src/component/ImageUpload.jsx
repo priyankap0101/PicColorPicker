@@ -202,13 +202,12 @@ const ImageUpload = () => {
         <div className="flex items-center mt-4 space-x-4">
           {/* Color Box */}
           <div
+            className="w-12 h-12 border border-black"
             style={{
-              width: "50px",
-              height: "50px",
               backgroundColor: selectedColor,
-              border: "1px solid #000",
             }}
           ></div>
+
           {/* Color Code */}
           <p className="text-gray-700">
             Selected Color: <span className="font-bold">{selectedColor}</span>
