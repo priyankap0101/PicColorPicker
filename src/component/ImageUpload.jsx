@@ -130,7 +130,7 @@ const ImageUpload = () => {
           </span>
 
           {/* Subheading */}
-          <span className="block text-lg font-semibold text-white transition-all duration-300 ease-in-out bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 hover:text-transparent hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-400">
+          <span className="block text-lg font-semibold text-transparent transition-all duration-300 ease-in-out bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 hover:scale-110 hover:brightness-125 focus:outline-none focus:ring-4 focus:ring-teal-400/70 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800">
             Choose Your Color
           </span>
 
@@ -217,22 +217,21 @@ const ImageUpload = () => {
 
       {/* Reset Button */}
       {imageData && (
-       <button
-       onClick={handleResetCanvas}
-       className="relative flex items-center justify-center px-5 py-3 mx-auto mt-6 text-sm font-medium text-white transition-all duration-300 ease-in-out transform rounded-full shadow-md sm:px-6 sm:py-4 sm:text-base bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:scale-105 hover:shadow-lg hover:brightness-110 hover:animate-gradient-x active:scale-95 active:shadow-inner focus:outline-none focus:ring-4 focus:ring-pink-400/70 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 dark:from-purple-600 dark:via-pink-600 dark:to-indigo-600 dark:hover:brightness-125 dark:active:scale-95"
-       aria-label="Reset Canvas Button"
-     >
-       {/* Glow Effect for Hover */}
-       <span
-         className="absolute inset-0 transition-opacity duration-300 rounded-full opacity-0 bg-white/20 hover:opacity-25 focus:opacity-30"
-         aria-hidden="true"
-       ></span>
-     
-       {/* Icon with Improved Alignment */}
-       <FaRedo className="mr-3 text-lg sm:text-xl" aria-hidden="true" />
-       <span>Reset Canvas</span>
-     </button>
-     
+        <button
+          onClick={handleResetCanvas}
+          className="relative flex items-center justify-center px-5 py-3 mx-auto mt-6 text-sm font-medium text-white transition-all duration-300 ease-in-out transform rounded-full shadow-md sm:px-6 sm:py-4 sm:text-base bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:scale-105 hover:shadow-lg hover:brightness-110 hover:animate-gradient-x active:scale-95 active:shadow-inner focus:outline-none focus:ring-4 focus:ring-pink-400/70 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 dark:from-purple-600 dark:via-pink-600 dark:to-indigo-600 dark:hover:brightness-125 dark:active:scale-95"
+          aria-label="Reset Canvas Button"
+        >
+          {/* Glow Effect for Hover */}
+          <span
+            className="absolute inset-0 transition-opacity duration-300 rounded-full opacity-0 bg-white/20 hover:opacity-25 focus:opacity-30"
+            aria-hidden="true"
+          ></span>
+
+          {/* Icon with Improved Alignment */}
+          <FaRedo className="mr-3 text-lg sm:text-xl" aria-hidden="true" />
+          <span>Reset Canvas</span>
+        </button>
       )}
     </div>
   );
